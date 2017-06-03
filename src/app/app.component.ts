@@ -1,22 +1,20 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UserService} from "./user.service";
-import {Subscription} from "rxjs/Subscription";
+import { Component, OnInit } from '@angular/core';
+
+import { UsersService } from './users.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   user1Activated = false;
   user2Activated = false;
-  userActivatedSubscription: Subscription;
 
-  constructor(private userService: UserService) {
-  }
+  constructor(private usersService: UsersService) {}
 
   ngOnInit() {
-    this.userActivatedSubscription = this.userService.userActivated.subscribe(
+    this.usersService.userActivated.subscribe(
       (id: number) => {
         if (id === 1) {
           this.user1Activated = true;
@@ -25,9 +23,5 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
     );
-  }
-
-  ngOnDestroy() {
-    this.userActivatedSubscription.unsubscribe();
   }
 }
